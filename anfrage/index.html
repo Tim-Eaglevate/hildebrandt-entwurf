@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Angebot oder Muster anfragen | Hildebrandt</title>
+<meta name="description" content="Angebot, Muster, Individualverpackung oder Beratung vor Ort anfragen. Ihre Anfrage geht direkt an die zuständige Niederlassung.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Roboto+Slab:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/hildebrandt-entwurf/style.css?v=33">
+</head>
+<body data-nav="">
+<main>
+<section class="page-stage">
+ <div class="stage-edge"></div>
+ <div class="stage-img"><img src="/hildebrandt-entwurf/img/h-versand.jpg" alt=""></div>
+ <div class="wrap">
+  <nav class="crumbs"><a href="/hildebrandt-entwurf/">Start</a><span>/</span><b>Anfrage</b></nav>
+  <div class="in"><h1>Sagen Sie uns, was Sie brauchen.</h1><p>Ihre Anfrage geht direkt an die Niederlassung in Ihrer Nähe. Sie hören in der Regel noch am selben Werktag von uns.</p></div>
+ </div>
+</section>
+<div class="wrap">
+<div class="form-wrap">
+ <form class="form" id="f">
+  <div>
+   <div style="font-weight:600;font-size:15px;margin-bottom:8px">Worum geht es?</div>
+   <div class="kinds">
+    <button type="button" class="kind on" data-k="angebot">Angebot</button>
+    <button type="button" class="kind" data-k="muster">Muster</button>
+    <button type="button" class="kind" data-k="individuell">Individualverpackung</button>
+    <button type="button" class="kind" data-k="beratung">Beratung vor Ort</button>
+   </div>
+  </div>
+  <div class="two"><label>Firma<input required placeholder="Musterfirma GmbH"></label><label>Postleitzahl<input inputmode="numeric" maxlength="5" placeholder="24558"></label></div>
+  <div class="two"><label>Ihr Name<input required placeholder="Vor- und Nachname"></label><label>Telefon<input type="tel" placeholder="Für Rückfragen"></label></div>
+  <label>E-Mail<input type="email" required placeholder="name@firma.de"></label>
+  <label>Ihre Nachricht<textarea placeholder="Menge, Maße, Termin oder was Sie heute verwenden"></textarea></label>
+  <button class="btn btn-p" style="justify-self:start">Anfrage senden<i data-i="arrow"></i></button>
+  <div class="done" id="done"><h3 style="margin-bottom:8px">Danke, Ihre Anfrage ist angekommen.</h3><p>Die zuständige Niederlassung meldet sich bei Ihnen. Brauchen Sie es schneller, rufen Sie uns an: 04193 994 5.</p></div>
+ </form>
+ <aside class="side">
+  <div class="list"><h3>Vorgemerkte Artikel</h3><div id="items"></div></div>
+  <div class="gcard"><h3>Katalogware sofort bestellen</h3><p style="margin:8px 0 16px;color:var(--ink-2)">Kennen Sie Ihren Artikel schon, geht es im Onlineshop am schnellsten.</p><a class="btn btn-o" href="https://www.hilde24.de/" target="_blank" rel="noopener">Zum Onlineshop HILDE24<i data-i="ext"></i></a></div>
+ </aside>
+</div>
+</div></main>
+<script src="/hildebrandt-entwurf/layout.js?v=22"></script>
+<script>
+const art=new URLSearchParams(location.search).get('art');
+document.querySelectorAll('.kind').forEach(k=>{if(art)k.classList.toggle('on',k.dataset.k===art);k.onclick=()=>k.classList.toggle('on')});
+const box=document.getElementById('items');
+const draw=()=>{const l=HB_LIST.get();box.innerHTML=l.length?l.map(x=>`<div class="it"><span>${x.t}<br><small style="color:var(--mute)">Art.-Nr. ${x.id}</small></span><button data-r="${x.id}">Entfernen</button></div>`).join(''):'<p class="empty">Noch nichts vorgemerkt. Auf jeder Produktseite können Sie Varianten mit „Anfragen“ vormerken.</p>';
+ box.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{HB_LIST.set(HB_LIST.get().filter(x=>x.id!==b.dataset.r));draw();HB_LIST.paint()})};
+draw();
+document.getElementById('f').onsubmit=e=>{e.preventDefault();document.getElementById('done').classList.add('on')};
+</script>
+</body>
+</html>
